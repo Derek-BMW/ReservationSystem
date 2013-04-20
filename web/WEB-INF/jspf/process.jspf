@@ -1,0 +1,23 @@
+<%
+dbs.Database process=new dbs.Database("Railway");
+process.connect();
+int i=1;
+boolean res=false;
+out.println(request.getParameter("Date"));
+while(request.getParameter("p"+i+"name")!=null){;
+String pname="p"+i+"name";
+String pquota="p"+i+"quota";
+res=process.bookTicket(session.getAttribute("SID").toString(),request.getParameter("trainno"),request.getParameter("Source"),request.getParameter("Destination"),request.getParameter("Date"),request.getParameter(pquota),request.getParameter(pname));
+i++;
+}
+out.println(res);
+process.close();
+if(res){
+    out.println("<font color=green>Congratulations,Ticket booked Successfully<br/>Please wait while we redirect you to the home screen..</font>");
+    response.setHeader("Refresh","3;URL=index.jsp");
+    }
+else{
+    out.println("<font color=red>Some error occured,Ticket could not be booked, Please check booked ticket history before trying again..<br/>We are redirecting you to the home screen now..</font>");
+    response.setHeader("Refresh","3;URL=index.jsp");
+}
+%>

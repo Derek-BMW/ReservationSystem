@@ -1,0 +1,50 @@
+<%-- any content can be specified here e.g.: --%>
+<%@ page pageEncoding="UTF-8" %>
+<%@page import="java.security.*" %>
+<%if(request.getParameter("userid")!=null){
+            dbs.Database login=new dbs.Database("railway");
+            login.connect();
+
+            String[] user=new String[9];
+            user[0]=request.getParameter("userid");
+            java.security.MessageDigest md=java.security.MessageDigest.getInstance("MD5");
+            user[1]=request.getParameter("password");
+            user[2]=request.getParameter("firstname");
+            user[3]=request.getParameter("lastname");
+            user[4]=request.getParameter("age");
+            user[5]=request.getParameter("gender");
+            user[6]=request.getParameter("phone");
+            user[7]=request.getParameter("address");
+            user[8]=request.getParameter("emailid");
+            if(login.Register(user)){
+                login.close();
+                out.println("<font color=\"green\">Registered Successfully<br/>Please wait while we redirect you to home</font>");
+                session.setAttribute("SID",request.getParameter("userid"));
+                response.setHeader("Refresh","3;URL=index.jsp");
+                }
+            else{
+                login.close();
+                out.println("<font color=\"Red\">Registration failed!!</font>");
+                response.setHeader("Refresh","3;URL=register.jsp");
+                }
+            }
+        else{
+        %>
+        <div align="center" >
+            <h1>Register</h1>
+        <form method="POST" action="register.jsp">
+            <table >
+                <tr><td>Username</td><td><input type="text" name="userid" title="Username"/></td></tr>
+                <tr><td>Password</td><td><input type="password" name="password" title="Password"/></td></tr>
+                <tr><td>First Name</td><td><input type="text" name="firstname" title="First Name"/></td></tr>
+                <tr><td>Last Name</td><td><input type="text" name="lastname" title="Last Name"/></td></tr>
+                <tr><td>Age</td><td><input type="text" name="age" title="First Name"/></td></tr>
+                <tr><td>Sex</td><td><select name="gender" Title="Gender"><option selected>Gender</option><option value="M">Male</option><option value="F">Female</option></select></td></tr>
+                <tr><td>Phone Number</td><td><input type="text" name="phone" title="Phone Number" maxlength="10" /></td></tr>
+                <tr><td>Address</td><td><input type="textarea" name="address" title="Address"/></td></tr>
+                <tr><td>Email Address</td><td><input type="text" name="emailid" title="EmailID"/></td></tr>
+                <tr><td></td><td><input type="Submit" value="Register" title="Register"/></td></tr>
+            </table>
+        </form>
+        </div>
+        <% } %>

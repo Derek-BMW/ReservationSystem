@@ -1,0 +1,38 @@
+<%-- any content can be specified here e.g.: --%>
+<%@ page pageEncoding="UTF-8" %>
+<%         if(request.getParameter("log")!=null){
+            session.setAttribute("AID", null);
+            response.sendRedirect("Admin.jsp");
+            }
+if(request.getParameter("username")!=null){
+    dbs.Database login=new dbs.Database("railway");
+    if(!login.connect())
+        out.println("Error!Could not Connect to the Database");
+        //out.println(login.logincheck(request.getParameter("username"),request.getParameter("password")));
+        //out.println("Username"+request.getParameter("username")+"Password"+request.getParameter("password"));
+   if(!login.adminlogin(request.getParameter("username"),request.getParameter("password"))){
+        login.close();
+        out.println("<font color=\"RED\">Invalid User Name or Password</font>");
+        response.setHeader("Refresh","5;URL=Admin.jsp");
+        }
+    else{
+        session.setAttribute("AID",request.getParameter("username"));
+        out.println("<font color=\"green\">Login Successful<br/>Please wait while we redirect you!!</font>");
+        response.setHeader("Refresh","2;URL=Admin.jsp");
+        }
+}
+else if(session.getAttribute("AID")==null)
+/*{
+out.println("<h1>"+session.getAttribute("SID")+"</h1>");
+}
+else*/
+{ %>
+<h1>Admin Login</h1><br/>
+<h2>Please Login to continue!</h2>
+            <form method="post" action="Admin.jsp">
+                <table>
+                    <tr><td>Username:</td><td><input type="number" name="username" placeholder="Username" title="Username" required /></td></tr>
+                    <tr><td>Password:</td><td><input type="password" name="password" placeholder="Password" title="Password" required /></td></tr>
+                    <tr><td><input type="submit"  value="Login"/></td><td><input type="reset"/></td></tr>
+                </table>
+        </form>

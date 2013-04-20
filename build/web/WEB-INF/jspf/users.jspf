@@ -1,0 +1,20 @@
+<%
+dbs.Database users=new dbs.Database("Railway");
+users.connect();
+java.sql.ResultSet rs=users.users();
+%>
+<table border="1">
+    <tr><th>Username</th><th>First name</th><th>Email ID</th></tr>
+
+<%
+while(rs.next()){
+    %>
+    <tr><td><%=rs.getString(1)%></td><td><%=rs.getString(3)%></td><td><%=rs.getString(9)%></td></tr>
+    <%
+    }
+%>
+</table>
+<%
+users.close();
+
+%>

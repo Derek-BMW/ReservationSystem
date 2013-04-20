@@ -1,0 +1,36 @@
+<% if(request.getParameter("fname")!=null){
+    dbs.Database updatep=new dbs.Database("Railway");
+    updatep.connect();
+    //out.println("after connect");
+    if(updatep.profileUpdate(request.getParameter("fname").toString(),request.getParameter("lname").toString(),request.getParameter("age").toString(),request.getParameter("gender").toString(),request.getParameter("phone").toString(),request.getParameter("address").toString(),request.getParameter("emailid").toString(),session.getAttribute("SID").toString())){
+        out.println("<font color=green>Profile Successfully Updated</font><br/>");
+    }
+    else{
+        out.println("<font color=red>Profile Updation failed</font><br/>");
+        }
+    updatep.close();
+    }//else{ out.println("if false"+request.getAttribute("fname"));
+   // }
+String userid=session.getAttribute("SID").toString();
+dbs.Database prof=new dbs.Database("Railway");
+prof.connect();
+//out.println(userid);
+java.sql.ResultSet rs=prof.profile(userid);
+if(rs!=null){
+    rs.next(); %>
+    <table>
+    <form action="profile.jsp" method="post" >
+        <tr><td>First Name</td><td><input type="text" name="fname" value="<%=rs.getString(3)%>" required /></td></tr>
+        <tr><td>Last Name</td><td><input type="text" name="lname" value="<%=rs.getString(4)%>" required/></td></tr>
+        <tr><td>Age</td><td><input type="text" name="age" value="<%=rs.getString(5)%>" required /></td></tr>
+        <tr><td>Gender</td><td><input type="radio" name="gender" value="M" <% if(rs.getString(6).equals("M")){%>checked="checked"<%} %> />Male<input type="radio" name="gender" value="F" <% if(rs.getString(6).equals("F")){%>checked="checked"<%} %>  />Female</td></tr>
+        <tr><td>Phone Number</td><td><input type="text" name="phone" value="<%=rs.getString(7) %>" required/></td></tr>
+        <tr><td>Address</td><td><input type="text" name="address" value="<%=rs.getString(8)%>" required/></td></tr>
+        <tr><td>Email ID</td><td><input type="text" name="emailid" value="<%=rs.getString(9)%>" required/></td></tr>
+        <input type="hidden" name="username" value="<%=userid %>" />
+        <tr><td></td><td><input type="Submit" value="Update" /></td></tr>
+
+    </form>
+    </table>
+<%  } else{out.println("its null");}
+prof.close();%>

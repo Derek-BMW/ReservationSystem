@@ -1,0 +1,16 @@
+<a href="pnr.jsp" style="text-decoration:none" visited:color="#FF0000">PNR Status</a><br/>
+<a href="Admin.jsp">Admin</a><br/>
+
+        <%         if(request.getParameter("log")!=null){
+            session.setAttribute("SID", null);
+            response.sendRedirect("index.jsp");
+            }
+            else { if(session.getAttribute("SID")!=null) {%>
+
+            <a href="Avail.jsp" style="text-decoration:none" visited:color="#FF0000">Check Availability</a><br/>
+            <a href="bookhistory.jsp" style="text-decoration:none">Booking History</a><br/>
+            <a href="profile.jsp" style="text-decoration:none">Profile</a><br/>
+            <form method="get" action="index.jsp?log=logout">
+            <input type="Submit" value="Logout" name="log"/>
+            </form>
+                <% } } %>

@@ -1,0 +1,37 @@
+<%-- any content can be specified here e.g.: --%>
+<%@ page pageEncoding="UTF-8" %>
+<%
+if(request.getParameter("username")!=null){
+    dbs.Database login=new dbs.Database("railway");
+    if(!login.connect())
+        out.println("Error!Could not Connect to the Database");
+        //out.println(login.logincheck(request.getParameter("username"),request.getParameter("password")));
+        //out.println("Username"+request.getParameter("username")+"Password"+request.getParameter("password"));
+   if(!login.logincheck(request.getParameter("username"),request.getParameter("password"))){
+        login.close();
+        out.println("<font color=\"RED\">Invalid User Name or Password</font>");
+        response.setHeader("Refresh","5;URL=index.jsp");
+        }
+    else{
+        session.setAttribute("SID",request.getParameter("username"));
+        out.println("<font color=\"green\">Login Successful<br/>Please wait while we redirect you!!</font>");
+        response.setHeader("Refresh","3;URL=index.jsp");
+        }
+}
+else if(session.getAttribute("SID")==null)
+/*{
+out.println("<h1>"+session.getAttribute("SID")+"</h1>");
+}
+else*/
+{ %>
+<h1>Please Login to continue!</h1>
+
+            <form method="post" action="index.jsp">
+                <table>
+
+                    <tr><td>Username:</td><td><input type="number" name="username" placeholder="Username" title="Username" required /></td></tr>
+                    <tr><td>Password:</td><td><input type="password" name="password" placeholder="Password" title="Password" required /></td></tr>
+                    <tr><td><input type="reset"/></td><td  align=right><input type="image" src="images/login.jpg"  value="Login" title="Log In"/></td></tr>
+                    <tr><td colspan="2" align="center"> <a href="register.jsp" title="Register" ><img title="Register for new account" src="images/register.jpg" alt="Register"/></a></td></tr>
+                </table>
+        </form>

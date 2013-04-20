@@ -1,0 +1,40 @@
+<script type="text/javascript">
+    function fun(a){
+        var xml;
+        xml=new XMLHttpRequest();
+        xml.onreadystatechange=function()
+        {
+            if(xml.readyState==4 && xml.status==200){
+
+                document.getElementById("mydiv").innerHTML=xml.responseText;
+            }
+        }
+        var add="form.jsp?trainno="+a;
+        xml.open("GET",add,true);
+        xml.send();
+
+    }
+</script>
+<%
+dbs.Database trains=new dbs.Database("Railway");
+trains.connect();
+java.sql.ResultSet rs=trains.getTrains();
+%>
+<table border="1">
+    <tr><th>Train Number</th><th>Source</th><th>Destination</th><th>Running Date</th><th>Total Berth</th><th>Available Berths</th><th>Price</th><th></th><th></th></tr>
+<%
+while(rs.next())
+{
+    
+    %>
+    <tr><td><%=rs.getString(1)%></td><td><%=rs.getString(2)%></td><td><%=rs.getString(3)%></td><td><%=rs.getString(7)%></td><td><%=rs.getString(4)%></td><td><%=rs.getString(6)%></td><td><%=rs.getString(5)%></td><td><input type="image" src="images/edit.jpg" value="Edit" onclick="fun(<%=rs.getString(1)%>)" /></td><td><a href="delete?trainno=<%=rs.getString(1)%>" ><img alt="Delete Train" title="Delete Train" src="images/delete.png" height="35" width="35"/></a></td></tr>
+    <%
+}
+%>
+</table>
+<div id="mydiv">
+
+</div>
+<%
+trains.close();
+%>

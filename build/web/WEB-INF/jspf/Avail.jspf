@@ -1,0 +1,68 @@
+<%-- any content can be specified here e.g.: --%>
+<%@ page pageEncoding="UTF-8" %>
+<h2>Reservation</h2>
+
+<form method="post" action="Avail.jsp">
+    <table>
+        <tr><td>Source Station:</td><td><input type="Text" name="source" title="Source Station" placeholder="Source Station" required <% if(request.getParameter("source")!=null) { %> value="<%=request.getParameter("source") %>" <% } %> ></td></tr>
+        <tr><td>Destination Station:</td><td><input type="Text" name="destination" title="Destination Station" placeholder="Destination Station" required <% if(request.getParameter("destination")!=null) { %> value="<%=request.getParameter("destination") %>" <% } %> ></td></tr>
+        <tr><td>Journey Date:</td><td><Select name="day">
+                    <option <% if(request.getParameter("day")==null) out.println("selected"); %> >Day</option>
+                    <% for(int i=1;i<32;++i) {%>
+                    <option value="<%= i%>" <% if(request.getParameter("day")!=null && Integer.parseInt(request.getParameter("day"))==i) {out.println("selected");} %> ><%=i%></option>
+                    <% } %>
+                </Select>
+                <Select name="month">
+                    <option <% if(request.getParameter("month")==null) out.println("selected");%>  >Month</option>
+                    <% for(int i=1;i<13;++i) {%>
+                    <option value="<%= i%>" <% if(request.getParameter("month")!=null && Integer.parseInt(request.getParameter("month"))==i) out.println("selected"); %> ><%=i%></option>
+                    <% } %>
+                </Select>
+                <Select name="year">
+                    <option <% if(request.getParameter("year")==null) out.println("selected"); %>  >Year</option>
+                    <option value="2012" <% if(request.getParameter("year")!=null && Integer.parseInt(request.getParameter("year"))==2012) out.println("selected"); %> >2012</option>
+                </Select>
+            </td></tr>
+        <tr><td><input type="Submit" value="Check Availability" title="Check Availibility"></td></tr>
+    </table>
+</form>
+       
+<%if(request.getParameter("source")!=null){
+    out.println("<h1>Availibility Status!!</h1>");
+    %>
+     <table>
+            <tr><th>Train Number</th><th>Available Seats</th></tr>
+    <%
+    dbs.Database avail=new dbs.Database("railway");
+    avail.connect();
+    //out.println("<tr><td>"+avail.getAvail(request.getParameter("source"),request.getParameter("destination"))+"</td></tr>");
+    int day=Integer.parseInt(request.getParameter("day"));
+    String dd=new String();
+    String mm=new String();
+    if(day<10){
+        dd="0"+day;
+        }
+    else {
+        dd=""+day;}
+    int month=Integer.parseInt(request.getParameter("month"));
+    if(month<10){
+        mm="0"+month;
+        }
+    else{
+        mm=""+month ;
+        }
+    String date=request.getParameter("year")+"-"+mm+"-"+dd;
+    int result[][]=avail.getAvail(request.getParameter("source"),request.getParameter("destination"),date);
+    int i=0;
+    
+    while(i<result.length){%>
+       <tr><td><%=result[i][0] %></td><td><% if(result[i][1]==0)out.println("Not Available"); else out.println(result[i][1]); %></td><td><a href="reserve.jsp?trainno=<%=result[i][0]%>&Source=<%=request.getParameter("source")%>&Destination=<%=request.getParameter("destination")%>&Date=<%=date %>">Book Ticket</a></td></tr>
+    <%  i++; }
+    %>
+    </table>
+        <%
+    avail.close();
+   
+}
+%>
+

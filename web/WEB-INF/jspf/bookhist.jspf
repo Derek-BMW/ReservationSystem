@@ -1,0 +1,13 @@
+<table border="1">
+    <tr><th>Train Number</th><th>Passenger Name</th><th>Source</th><th>Destination</th><th>Journey Date</th><th>PNR Number</th></tr>
+<% String user=session.getAttribute("SID").toString();
+    dbs.Database hist=new dbs.Database("Railway");
+    hist.connect();
+    java.sql.ResultSet rs=hist.bookedhistory(user);
+%>
+    <% if(rs!=null){while(rs.next()){ %>
+    <tr><td><%=rs.getString(2)%></td><td><%=rs.getString(10) %></td><td><%=rs.getString(3)%></td><td><%=rs.getString(4)%></td><td><%=rs.getString(8)%></td><td><%=rs.getString(9)%></td></tr>
+    <% }}
+hist.close();
+%>
+</table>

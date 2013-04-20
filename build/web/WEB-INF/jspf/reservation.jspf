@@ -1,0 +1,34 @@
+<%-- any content can be specified here e.g.: --%>
+<%@ page pageEncoding="UTF-8" %>
+<form action="book.jsp" method="post" >
+   <h2>Reservation Form</h2>
+    <table>
+        <tr><td>Train Number:</td><td><input type="text" name="trainno" value="<%=request.getParameter("trainno")%>" readonly ></td><td>Date:</td><td><input type="text" name="Date" value="<%= request.getParameter("Date")%>" readonly></td></tr>
+        <tr><td>Source:</td><td><input type="text" name="Source" value="<%=request.getParameter("Source")%>" readonly></td><td>Destination:</td><td><input type="text" name="Destination" value="<%=request.getParameter("Destination")%>" readonly></td></tr>
+    </table>
+    <b>Passenger Details:</b>
+    <table>
+        <tr><td>Passenger Name</td><td>Age</td><td></td></tr>
+        <tr><td><input type="text" name="p1name" required ></td><td><input type="text" name="p1age" required></td><td><select name="p1quota">
+            <option selected>None</option>
+            <option value="senior">Senior Citizen</option>
+            <option value="doctor">Doctor</option>
+        </select></td></tr>
+        <tr><td><input type="text" name="p2name" ></td><td><input type="text" name="p2age" ></td><td><select name="p2quota">
+            <option selected>None</option>
+            <option value="senior">Senior Citizen</option>
+            <option value="doctor">Doctor</option>
+        </select></td></tr>
+        <tr><td><input type="text" name="p3name" ></td><td><input type="text" name="p3age" ></td><td><select name="p3quota">
+            <option selected>None</option>
+            <option value="senior">Senior Citizen</option>
+            <option value="doctor">Doctor</option>
+        </select></td></tr>
+        <tr><td><input type="text" name="p4name" ></td><td><input type="text" name="p4age" ></td><td><select name="p4quota">
+            <option selected>None</option>
+            <option value="senior">Senior Citizen</option>
+            <option value="doctor">Doctor</option>
+        </select></td></tr>
+    </table>
+    <input type="submit" value="Book Ticket"><input type="reset" value="reset">
+</form>

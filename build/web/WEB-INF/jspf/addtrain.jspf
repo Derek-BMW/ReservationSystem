@@ -1,0 +1,61 @@
+<%
+if(request.getParameter("trainno")!=null)
+{
+dbs.Database trains=new dbs.Database("Railway");
+trains.connect();
+int day=Integer.parseInt(request.getParameter("day"));
+    String dd=new String();
+    String mm=new String();
+    if(day<10){
+        dd="0"+day;
+        }
+    else {
+        dd=""+day;}
+    int month=Integer.parseInt(request.getParameter("month"));
+    if(month<10){
+        mm="0"+month;
+        }
+    else{
+        mm=""+month ;
+        }
+String date=request.getParameter("year")+"-"+mm+"-"+dd;
+boolean r=trains.insertTrain(request.getParameter("trainno"),request.getParameter("Source"),request.getParameter("Destination"),request.getParameter("tberth"),request.getParameter("price"),request.getParameter("tberth"),date);
+trains.close();
+if(r==true){
+    out.println("<font color=green>Train Added Successfully!!</font>");
+    response.setHeader("Refresh","2;URL=Admin.jsp");
+    }
+else{
+    out.println("<font color=red>Train Addition Failed!!</font>");
+    response.setHeader("Refresh","2;URL=Admin.jsp");
+    }
+}
+else {
+%>
+<h2>Add Trains</h2>
+<table>
+    <form action="addtrain.jsp" method="post">
+        <tr><td>Train Number</td><td><input type="text" name="trainno"required/></td></tr>
+        <tr><td>Source</td><td><input type="text" name="Source" required/></td></tr>
+        <tr><td>Destination</td><td><input type="text" name="Destination" required/></td></tr>
+        <tr><td>Total Berths</td><td><input type="text" name="tberth" required/></td></tr>
+        <tr><td>Price</td><td><input type="text" name="price" required/></td></tr>
+        <tr><td>Running Date</td><td><select name="day">
+                    <option selected>Day</option>
+                    <% for(int i=1;i<32;++i){ %><option value="<%=i%>"><%=i%></option><% } %>
+                </select>
+                <select name="month">
+                    <option selected>Month</option>
+                    <% for(int i=1;i<13;++i){ %><option value="<%=i%>"><%=i%></option><% } %>
+                </select>
+                <select name="year">
+                    <option selected>Year</option>
+                    <option value="2012">2012</option>
+                </select>
+            </td></tr>
+        <tr><td><input type="Submit" value="Add Train"/></td></tr>
+    </form>
+</table>
+<%
+}
+%>

@@ -1,0 +1,30 @@
+<script type="text/javascript">
+    function image(i){
+             i=(i+1)%8;
+            document.getElementById("slideshow").src="images/"+i+".jpg";
+            var funt="image("+i+")";
+            setTimeout(funt,3000);
+    }
+</script>
+<div style="height:142px; background-color:#cccccc"  >
+        <div >
+            <div style="PADDING-LEFT: 10px; FLOAT: left; PADDING-TOP: 0px">
+                <a href="index.jsp"><img style="border:none" src="images/trainlogo.png" width="206" height="142"  /></a>
+            </div>
+            <div style="PADDING-LEFT:30px; FLOAT:left; padding-top:0px">
+                <img style="border:none" src="images/logo.png"  alt="Site Name" height="100"/>
+            </div>
+            <div style="padding-right:0px; FLOAT:right; padding-top:0px" >
+                <img style="border:none" id="slideshow" src="images/0.jpg" width="256" height="142"/>
+            </div>
+            <div style="Padding-top:100px">
+            <ul style="text-align: left;margin: auto;width:1200px">
+		<li style="display: inline;padding: 0px;margin: 0px;"><a href="index.jsp"><img style="border:none" src="images/home.png" alt="home" /></a></li>
+                <li style="display: inline;padding: 0px;margin: 0px;"><a href=""><img style="border:none" src="images/about.png" alt="about" /></a></li>
+                <li style="display: inline;padding: 0px;margin: 0px;"><a href=""><img style="border:none" src="images/contact.png" alt="contact" /></a></li>
+            </ul>
+            </div>
+        </div>
+    </div>
+</body>
+<marquee border="1" behavior="scroll" direction="left" ><font color="red">Please logout before closing the window... Please check your booked ticket history incase of failed transactions...</font><font color="blue"> Thank you for using our Online Reservation service..</font></marquee>

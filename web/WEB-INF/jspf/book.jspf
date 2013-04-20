@@ -1,0 +1,30 @@
+<%-- any content can be specified here e.g.: --%>
+<%@ page pageEncoding="UTF-8" %>
+<%
+dbs.Database fare=new dbs.Database("Railway");
+fare.connect();
+int f[]=fare.getFare(request.getParameter("trainno"));
+int totalfare=0,i=1;
+while(request.getParameter("p"+i+"name")!=""){
+    //out.println(request.getParameter("p"+i+"name"));
+    int quota=fare.getQuota(request.getParameter("p"+i+"quota"));
+    //out.println(quota);
+    totalfare+=f[0]*(100-quota)/100;
+    i++;
+    }
+fare.close();
+%>
+<form action="process.jsp" method="get">
+    <table>
+        <tr><td>Train Number:</td><td><input type="text" name="trainno" value="<%=request.getParameter("trainno")%>" readonly ></td><td>Date:</td><td><input type="text" name="Date" value="<%= request.getParameter("Date")%>" readonly></td></tr>
+        <tr><td>Source:</td><td><input type="text" name="Source" value="<%=request.getParameter("Source")%>" readonly></td><td>Destination:</td><td><input type="text" name="Destination" value="<%=request.getParameter("Destination")%>" readonly></td></tr>
+        <tr><td>Total Fare:</td><td><%= totalfare%></td><td>Availability:</td><td><%=f[1] %></td></tr>
+    </table>
+        
+<% for(int j=1;j<i;++j){ String pname="p"+j+"name";
+                String upage="p"+j+"age"; %>
+
+<input type="hidden" name="<%=pname%>" value="<%=request.getParameter("p"+j+"name")%>" /><input type="hidden" name="<%=upage%>" value=<%=request.getParameter("p"+j+"age")%> /><input type="hidden" name="quota" value="<%=request.getParameter("p"+j+"quota")%>" />
+<% }   %>
+<input type="submit" value="Make payement">
+</form>
